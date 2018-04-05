@@ -60,5 +60,5 @@ class TestCase(unittest.TestCase):
             INV_EXPECTED[v].append(k)
 
         for v, keylist in sorted(INV_EXPECTED.items()):
-            self.assertEqual(d.reverse_lookup(v), keylist)
+            self.assertEqual(sorted(d.reverse_lookup(v)), sorted(keylist))
 
