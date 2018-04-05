@@ -6,8 +6,10 @@
 import os
 import codecs
 import unittest
-from plover_eclipse_dictionary import EclipseDictionary
 from collections import defaultdict
+
+import pkg_resources
+
 
 FILENAME = 'test/eclipse-test.dix'
 
@@ -32,12 +34,16 @@ EXPECTED = {
 
 class TestCase(unittest.TestCase):
 
-    def test_load_dictionary(self):
+    @classmethod
+    def setUpClass(cls):
+        cls.dict_class = pkg_resources.load_entry_point('plover_eclipse_dictionary',
+                                                        'plover.dictionary', 'dix')
 
-        d = EclipseDictionary.load(FILENAME)
+    def test_load_dictionary(self):
+        d = self.dict_class.load(FILENAME)
 
     def test_getitem(self):
-        d = EclipseDictionary.load(FILENAME)
+        d = self.dict_class.load(FILENAME)
 
         for (k, v) in sorted(EXPECTED.items()):
             self.assertEqual(d[k], v)
@@ -52,7 +58,7 @@ class TestCase(unittest.TestCase):
             'dummy')
 
     def test_reverse_lookup(self):
-        d = EclipseDictionary.load(FILENAME)
+        d = self.dict_class.load(FILENAME)
 
         INV_EXPECTED = defaultdict(list)
 
