@@ -33,8 +33,9 @@ EXPECTED = {
 class TestCase(unittest.TestCase):
 
     def test_load_dictionary(self):
-
         d = EclipseDictionary.load(FILENAME)
+        assert len(d) == len(EXPECTED)
+        assert d.readonly
 
     def test_getitem(self):
         d = EclipseDictionary.load(FILENAME)

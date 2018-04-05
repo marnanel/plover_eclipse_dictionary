@@ -3,12 +3,12 @@
 # Eclipse (.dix) handler
 # written by Marnanel Thurman <marnanel@thurman.org.uk>
 
-from plover.steno_dictionary import StenoDictionary
-from plover.steno import normalize_steno
-from plover import resource
 import zlib
 import xml.etree.ElementTree as ET
-from collections import defaultdict
+
+from plover.steno_dictionary import StenoDictionary
+from plover.steno import normalize_steno
+
 
 class _EclipseHandler(object):
     """Takes the XML from a .dix file and
@@ -77,12 +77,6 @@ class EclipseDictionary(StenoDictionary):
 
     readonly = True
 
-    def __init__(self):
-        super(EclipseDictionary, self).__init__()
-        self._contents = None
-        self._reverse_contents = None
-        self.readonly = True
-
     # We could provide _save(), if anyone would find it useful.
     # The only complication is that Eclipse stores information
     # that Plover doesn't track, such as the creation and last
@@ -107,28 +101,5 @@ class EclipseDictionary(StenoDictionary):
                 )
         parser.feed(contents)
 
-        self._contents = {}
-        self._reverse_contents = defaultdict(list)
-
-        for (k, v) in handler.results():
-            self._contents[k] = v
-            self._reverse_contents[v].append(k)
-
-    def getattr(self, key, default=None):
-        return self.__getattr__(key, default)
-
-    def __setitem__(self, key, value):
-        raise NotImplementedError()
-
-    def __delitem__(self, key):
-        raise NotImplementedError()
-
-    def __getitem__(self, key):
-        return self._contents.__getitem__(key)
-
-    def get(self, key, fallback=None):
-        return self._contents.get(key, fallback)
-
-    def reverse_lookup(self, value):
-        return self._reverse_contents[value]
-
+        self.update(handler.results())
+        self.readonly = True
