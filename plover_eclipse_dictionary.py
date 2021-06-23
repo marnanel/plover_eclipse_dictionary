@@ -3,12 +3,13 @@
 # Eclipse (.dix) handler
 # written by Marnanel Thurman <marnanel@thurman.org.uk>
 
-from plover.steno_dictionary import StenoDictionary
-from plover.steno import normalize_steno
-from plover import resource
+from collections import defaultdict
 import zlib
 import xml.etree.ElementTree as ET
-from collections import defaultdict
+
+from plover.steno_dictionary import StenoDictionary
+from plover.steno import normalize_steno
+
 
 class _EclipseHandler(object):
     """Takes the XML from a .dix file and
