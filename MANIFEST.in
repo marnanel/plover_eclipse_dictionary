@@ -1,3 +1,4 @@
+include pyproject.toml
 include *.txt
 recursive-include test *.dix
 recursive-include test *.py
