@@ -12,10 +12,11 @@ from plover.steno import normalize_steno
 
 
 class _EclipseHandler:
+
     """Takes the XML from a .dix file and
     produces a generator which yields
     (steno, translation) pairs.
-    
+
     Objects of this class are intended to be fed into ET.XMLParser."""
 
     def __init__(self):
@@ -57,23 +58,24 @@ class _EclipseHandler:
             self._text = ''
 
     def end(self, tag):
-        if tag=='s':
-            self._steno = self._text.replace(' ','/')
+        if tag == 's':
+            self._steno = self._text.replace(' ', '/')
             self._steno = normalize_steno(self._steno)
             self._text = None
-        elif tag=='t':
+        elif tag == 't':
             self._translation = self._text
             self._text = None
-        elif tag=='e':
+        elif tag == 'e':
             self._result[self._steno] = self._translation
             self._steno = None
             self._translation = None
 
     def results(self):
-        for (steno, translation) in self._result.items():
-            yield (steno, translation)
+        return self._result.items()
+
 
 class EclipseDictionary(StenoDictionary):
+
     """A StenoDictionary loaded from an Eclipse (.dix) file."""
 
     readonly = True
