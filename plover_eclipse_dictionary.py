@@ -11,7 +11,7 @@ from plover.steno_dictionary import StenoDictionary
 from plover.steno import normalize_steno
 
 
-class _EclipseHandler(object):
+class _EclipseHandler:
     """Takes the XML from a .dix file and
     produces a generator which yields
     (steno, translation) pairs.
@@ -79,7 +79,7 @@ class EclipseDictionary(StenoDictionary):
     readonly = True
 
     def __init__(self):
-        super(EclipseDictionary, self).__init__()
+        super().__init__()
         self._contents = None
         self._reverse_contents = None
         self.readonly = True
